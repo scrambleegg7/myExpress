@@ -1,0 +1,21 @@
+{
+  "name": "myexpress2",
+  "version": "1.0.0",
+  "description": "express server for testing",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "api",
+    "node"
+  ],
+  "author": "Hideaki Hamano",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.3",
+    "password-generator": "^2.2.3"
+  }
+}
