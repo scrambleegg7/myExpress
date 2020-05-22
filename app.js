@@ -4,6 +4,27 @@ const generatePassword = require('password-generator');
 
 const app = express();
 
+const allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Authorization, access_token'
+  )
+
+  // intercept OPTIONS method
+  if ('OPTIONS' === req.method) {
+    res.status(200).json(
+      {msg:"success"}
+    )
+  } else {
+    next()
+  }
+}
+app.use(allowCrossDomain)
+
+
+
 const http = require( 'http' );
 const https = require( 'https' );
 const fs = require( 'fs' );
@@ -42,7 +63,7 @@ console.log(`mongoDB connection error: ${err.message}`)
 
 
 
-app.get('/course', (req, res) => {
+app.get('/api/course', (req, res) => {
 
     console.log("reading Course collection from mongodb....")
 
@@ -80,26 +101,25 @@ app.get('/api/passwords', (req, res) => {
 //});
 
 
-var options = {
-  key: fs.readFileSync( '../../keys/server_key.pem' ),
-  cert: fs.readFileSync( '../../keys/server_crt.pem' )
-};
+//var options = {
+//  key: fs.readFileSync( '../../keys/server_key.pem' ),
+//  cert: fs.readFileSync( '../../keys/server_crt.pem' )
+//};
+
+
+//var serverhttps = https.createServer( options, app )
+//.listen( port, () => {
+//    console.log( "https server stating on " + port + " ..." );
+//});
+
+//var serverhttp = http.createServer(  app )
+//.listen( 5001, () => {
+//    console.log( "http server stating on " + 5001 + " ..." );
+//});
+
+
+
 const port = process.env.PORT || 5000;
-
-
-var serverhttps = https.createServer( options, app )
-.listen( port, () => {
-    console.log( "https server stating on " + port + " ..." );
-});
-
-var serverhttp = http.createServer(  app )
-.listen( 5001, () => {
-    console.log( "http server stating on " + 5001 + " ..." );
-});
-
-
-
-
-//app.listen(port);
+app.listen(port);
 
 console.log(`Password generator listening on ${port}`);
